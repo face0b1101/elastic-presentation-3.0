@@ -552,7 +552,7 @@ function InferenceHub({ accent, mono, size = 'md', children }) {
       }}
     >
       <img
-        src="/logo-elastic-glyph-color.png"
+        src="./logo-elastic-glyph-color.png"
         alt="Elastic"
         className={`${glyph} object-contain`}
       />

@@ -703,7 +703,7 @@ function CrossClusterScene({ metadata = {} }) {
                     }`}
                     style={{ opacity: 0 }}
                   >
-                    <img src="/logo-elastic-glyph-color.png" alt="Elastic" className="w-9 h-9 object-contain" />
+                    <img src="./logo-elastic-glyph-color.png" alt="Elastic" className="w-9 h-9 object-contain" />
                     <div>
                       <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>elastic</div>
                       <div className={`text-xs ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>Main Cluster</div>
@@ -919,7 +919,7 @@ function CrossClusterScene({ metadata = {} }) {
                 }`}
                 style={{ left: `${HUB_X}%`, top: `${HUB_Y}%`, transform: 'translate(-50%, -50%)', opacity: 0 }}
               >
-                <img src="/logo-elastic-glyph-color.png" alt="Elastic" className="w-10 h-10 object-contain" />
+                <img src="./logo-elastic-glyph-color.png" alt="Elastic" className="w-10 h-10 object-contain" />
                 <div>
                   <div className={`text-sm font-bold ${isDark ? 'text-white' : 'text-elastic-dev-blue'}`}>{hubName}</div>
                   <div className={`text-xs ${isDark ? 'text-white/40' : 'text-elastic-dev-blue/40'}`}>{hubSubtitle}</div>

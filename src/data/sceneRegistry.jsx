@@ -58,6 +58,7 @@ import GpuVectorPipelineScene from '../scenes/GpuVectorPipelineScene'
 import SearchInferenceScene from '../scenes/SearchInferenceScene'
 import SearchContextScene from '../scenes/SearchContextScene'
 import VideoKnowledgeScene from '../scenes/VideoKnowledgeScene'
+import PlatformTourScene from '../scenes/PlatformTourScene'
 
 /**
  * Canonical scene registry for the deck. Shared by the main presentation
@@ -72,6 +73,13 @@ export const SCENE_REGISTRY = [
     title: 'Hero',
     duration: '2 min',
     description: ''
+  },
+  {
+    id: 'platform-tour',
+    component: PlatformTourScene,
+    title: 'Platform Tour',
+    duration: '2 min',
+    description: 'Self-running loop for a booth or a room filling up — six pages (About, Platform Overview, Data Explosion, Unstructured Challenge, Context Layer, Knowledge From Video) rotate on their own, stepping through each page\u2019s own beats',
   },
   {
     id: 'agenda',

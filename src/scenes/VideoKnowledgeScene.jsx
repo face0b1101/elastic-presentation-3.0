@@ -27,7 +27,7 @@ const MONO = { fontFamily: 'Space Mono, ui-monospace, monospace' }
 // Three pages for a ministerial audience: the gap today, the shift, then the
 // close that names Elastic and hands over to the live demo.
 // Keywords sit inside the visual so the speaker reads prompts, not paragraphs.
-const DEFAULT_BEATS = [
+export const DEFAULT_BEATS = [
   {
     key: 'today',
     step: 'Today',

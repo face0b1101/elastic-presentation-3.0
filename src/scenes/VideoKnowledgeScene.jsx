@@ -41,7 +41,7 @@ const DEFAULT_BEATS = [
     step: 'The shift',
     titlePlain: 'Ask in plain words. ',
     titleAccent: 'Get the moment, with proof.',
-    subtitle: 'One question across every format — answered with the clip, the timestamp, and the evidence behind it.',
+    subtitle: 'One question across every format, answered with the clip, the timestamp, and the evidence behind it.',
     hold: 9000,
   },
   {
@@ -49,7 +49,7 @@ const DEFAULT_BEATS = [
     step: 'Over to the demo',
     titlePlain: 'One Elastic index. ',
     titleAccent: 'Not four products.',
-    subtitle: 'Words, meaning, vision, audio, record metadata and access control in one place — which is why the answer can carry its own evidence.',
+    subtitle: 'Words, meaning, vision, audio, record metadata and access control in one place, this is why the answer can carry its own evidence.',
     hold: 8000,
   },
 ]
@@ -90,10 +90,13 @@ const DEFAULT_SOURCES = [
   { id: 'text', label: 'Text', icon: faFileLines, examples: 'Hansard · Briefs · Case files' },
 ]
 
+// Real clips from the ASD Cybercrime by the Numbers report in the government
+// index, so the slide previews exactly what the demo then shows. Positions are
+// the true fraction of that 59-second recording.
 const DEFAULT_MOMENTS = [
-  { at: '00:12:41', pos: 17, title: 'The commitment', matched: 'Spoken words' },
-  { at: '01:04:09', pos: 51, title: 'Funding table on screen', matched: 'On-screen text' },
-  { at: '02:37:55', pos: 85, title: 'Follow-up challenge', matched: 'Who · when · where' },
+  { at: '0:08', pos: 14, title: 'The scale, spoken', matched: 'Spoken words' },
+  { at: '0:24', pos: 41, title: 'ReportCyber on screen', matched: 'On-screen text' },
+  { at: '0:48', pos: 81, title: 'Attributed to ASD’s ACSC', matched: 'Agency on screen' },
 ]
 
 const DEFAULT_COSTS = [
@@ -241,7 +244,7 @@ function AskBar({ question, caption, answered, accent, isDark }) {
   )
 }
 
-function Filmstrip({ moments, answered, accent, isDark, reduced, playKey }) {
+function Filmstrip({ moments, answered, caption, accent, isDark, reduced, playKey }) {
   const sweepRef = useRef(null)
   const trackRef = useRef(null)
 
@@ -320,6 +323,15 @@ function Filmstrip({ moments, answered, accent, isDark, reduced, playKey }) {
           </>
         )}
       </div>
+
+      {answered && caption && (
+        <p
+          className="pt-1.5 text-center text-[11px]"
+          style={{ ...MONO, color: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(16,28,63,0.45)' }}
+        >
+          {caption}
+        </p>
+      )}
     </div>
   )
 }
@@ -438,10 +450,12 @@ function VideoKnowledgeScene({ metadata = {} }) {
 
   const eyebrow = metadata.eyebrow || 'Government · Knowledge From Video'
   const question = metadata.question
-    || 'Where was the regional rail commitment made, and what was said?'
+    || 'criminals stealing money from Australians online'
   const askCaption = answered
     ? metadata.askCaptionShift || 'answered with evidence'
     : metadata.askCaptionToday || 'someone watches the recordings'
+  const sourceCaption = metadata.sourceCaption
+    || 'ASD Cybercrime by the Numbers 2024–25 · 59 seconds · 15 clips indexed'
   const railFooter = answered
     ? metadata.railFooterShift || 'One searchable knowledge layer.'
     : metadata.railFooterToday || 'Four archives. Four searches.'
@@ -455,8 +469,8 @@ function VideoKnowledgeScene({ metadata = {} }) {
     return { ...merged, icon: resolveIcon(merged.icon, DEFAULT_PLATFORM[i]?.icon || faLayerGroup) }
   })
   const outcome = metadata.outcome
-    || 'Answers while the question is still live, evidence that stands up, and one knowledge layer every agency — and every assistant — can reuse.'
-  const demoCue = metadata.demoCue || 'Over to the demo — one question, real government video'
+    || 'Answers while the question is still live, evidence that stands up, and one knowledge layer every agency that every assistant can reuse.'
+  const demoCue = metadata.demoCue || 'Over to the demo -> one question, real government video'
   const costs = (metadata.costs || DEFAULT_COSTS).map((c, i) => ({ ...(DEFAULT_COSTS[i] || {}), ...c }))
   // Overrides may be per-beat (keyed by beat key) or one flat list for both.
   const keywords = perBeatList(metadata.keywords, DEFAULT_KEYWORDS, current.key)
@@ -533,6 +547,7 @@ function VideoKnowledgeScene({ metadata = {} }) {
                 <Filmstrip
                   moments={moments}
                   answered={answered}
+                  caption={sourceCaption}
                   accent={accent}
                   isDark={isDark}
                   reduced={prefersReducedMotion}

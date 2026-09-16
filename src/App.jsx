@@ -288,6 +288,8 @@ function AppContent() {
     sceneProps = { metadata: currentMeta }
   } else if (currentBaseId === 'search-vector') {
     sceneProps = { metadata: currentMeta }
+  } else if (currentBaseId === 'video-knowledge') {
+    sceneProps = { metadata: currentMeta }
   } else if (currentBaseId === 'search-gpu') {
     sceneProps = { metadata: currentMeta }
   } else if (currentBaseId === 'search-inference') {

@@ -57,6 +57,7 @@ import VectorScaleScene from '../scenes/VectorScaleScene'
 import GpuVectorPipelineScene from '../scenes/GpuVectorPipelineScene'
 import SearchInferenceScene from '../scenes/SearchInferenceScene'
 import SearchContextScene from '../scenes/SearchContextScene'
+import VideoKnowledgeScene from '../scenes/VideoKnowledgeScene'
 
 /**
  * Canonical scene registry for the deck. Shared by the main presentation
@@ -161,6 +162,13 @@ export const SCENE_REGISTRY = [
     duration: '4 min',
     description: 'Multimodal vector search — image embeddings into 3D space, then text kNN (Jina v5 Omni narrative)',
     defaultDisabled: true,
+  },
+  {
+    id: 'video-knowledge',
+    component: VideoKnowledgeScene,
+    title: 'Knowledge From Video',
+    duration: '3 min',
+    description: 'Executive one-pager for the video search demo — the gap today, then plain-language questions answered with the clip, the timestamp, and the evidence',
   },
   {
     id: 'search-gpu',

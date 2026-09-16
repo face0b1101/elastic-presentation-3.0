@@ -7,7 +7,7 @@ polished animated scenes — all running locally in the browser with no backend.
 **Quick facts** (for humans and LLMs):
 
 - Single-page React 18 + Vite app, hash-routed (`/#/<scene-id>`), no server or database.
-- A presentation is an ordered, enabled subset of **52 registered scenes** (`src/data/sceneRegistry.jsx`).
+- A presentation is an ordered, enabled subset of **60 registered scenes** (`src/data/sceneRegistry.jsx`).
 - **Deck presets** (`src/data/deckPresets.js`) are out-of-the-box flows: New Prospect (default), Technical Deep-Dive, Whiteboard, Observability, Security, Search, All Scenes, No Scenes.
 - Scenes can have internal animation steps ("**beats**" via the `useSceneMotion` hook, or lifted "**stages**" managed in `App.jsx`).
 - A **presenter view** (`/#/presenter`) opens in a second tab and drives the audience tab over `BroadcastChannel`, with speaker notes and live previews.
@@ -103,7 +103,7 @@ content edits are preserved when switching presets. The default preset is
 
 ## Scene Library
 
-All 59 scenes, grouped as they appear in `src/data/sceneRegistry.jsx`. "Default"
+All 60 scenes, grouped as they appear in `src/data/sceneRegistry.jsx`. "Default"
 indicates whether the scene ships enabled before any preset/customization is
 applied (the New Prospect preset governs the actual default flow).
 
@@ -140,6 +140,7 @@ applied (the New Prospect preset governs the actual default flow).
 | Unstructured Challenge | `search-challenge` | 80% unstructured data — tip of the iceberg vs depth below the waterline |
 | Vector Database Scale | `search-vector-scale` | Elasticsearch as a vector DB — four scaling factors and DiskBBQ |
 | Vector Search | `search-vector` | Multimodal DOW-style demo: image → Jina embeddings into 3D space, then text kNN with cosine neighbours |
+| Knowledge From Video | `video-knowledge` | Elevator pitch for the video search demo — three beats (the gap today, the shift, then the Elastic close and demo hand-off), with on-slide keywords and a technical pivot rail. Ships enabled, unlike the rest of this group |
 | GPU Vector Pipeline | `search-gpu` | CPU indexing bottleneck cleared by NVIDIA cuVS (CAGRA → HNSW) |
 | Inference Any Model | `search-inference` | Provider mosaic + sovereign `/_inference` topology |
 | Context Layer | `search-context` | Missing layer reveal, Agent Builder / Context Engine, sources → benefits |
@@ -482,13 +483,13 @@ elastic-presentation-3.0/
 │   ├── App.jsx                    # Scene orchestration, nav bar, lifted stages, presenter integration
 │   ├── index.css                  # Tailwind base, fonts, custom keyframes
 │   ├── data/
-│   │   ├── sceneRegistry.jsx      # All 52 scene definitions (id, component, title, description)
+│   │   ├── sceneRegistry.jsx      # All 60 scene definitions (id, component, title, description)
 │   │   ├── deckPresets.js         # Out-of-the-box flows (New Prospect, Technical, Obs, Security, …)
 │   │   ├── agendaDefaults.js      # Agenda slide defaults
 │   │   ├── iconOptions.js         # Icon picker catalog for scene editors
 │   │   ├── knowledge/             # The curated Elastic corpus the AI retrieves from and cites
 │   │   └── whiteboardTypes.js / whiteboardTemplates.js  # Whiteboard component catalog & patterns
-│   ├── scenes/                    # All 57 scene components (+ _backup/ archive)
+│   ├── scenes/                    # All 61 scene components (+ _backup/ archive)
 │   ├── presenter/                 # Presenter view: cross-tab sync, previews, notes, click forwarding
 │   ├── components/
 │   │   ├── SceneSettings.jsx      # Settings panel + useSceneConfiguration hook + preset logic

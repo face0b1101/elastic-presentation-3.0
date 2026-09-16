@@ -17,7 +17,7 @@ const MONO = { fontFamily: 'Space Mono, ui-monospace, monospace' }
 const PAGE_HOLD_MS = 12000
 
 // A page whose scene has its own beats is stepped through beat by beat, reusing
-// each beat's authored `hold` — those are already tuned to outlast the beat's
+// each beat's authored `hold`, which is already tuned to outlast that beat's
 // entrance animation. Pinned into this band so nothing flashes past.
 const STEP_MIN_MS = 5000
 const STEP_MAX_MS = 10000
@@ -27,8 +27,8 @@ const STEP_MAX_MS = 10000
  *
  * - `beats`: the embedded scene's own beat list. The tour steps through it and
  *   reuses each beat's `hold`, so page timing never drifts from the scene.
- * - `stepProps`: for a scene with no beats but a one-shot reveal to trigger —
- *   one entry per step, merged into the scene's props.
+ * - `stepProps`: for a scene with no beats but a one-shot reveal to trigger.
+ *   One entry per step, merged into the scene's props.
  * - `hold`: dwell for a page that has neither.
  */
 const PAGES = [
@@ -149,7 +149,7 @@ function PlatformTourScene({ metadata = {} }) {
 
   return (
     <div className="h-full w-full flex flex-col overflow-hidden">
-      {/* Page rail — where we are in the loop, and a way to jump */}
+      {/* Page rail: where we are in the loop, and a way to jump */}
       <div className="shrink-0 flex items-center justify-center gap-2 px-8 pt-2 flex-wrap">
         <span
           className={`text-[11px] font-bold uppercase tracking-eyebrow mr-1 ${mutedText}`}
@@ -191,7 +191,7 @@ function PlatformTourScene({ metadata = {} }) {
         })}
       </div>
 
-      {/* The page itself — a live scene, stepped by the tour.
+      {/* The page itself: a live scene, stepped by the tour.
           `key` remounts it on a page change so its entrance replays; its own
           SceneMotion provider keeps its stepper out of the deck's nav bar. */}
       <div className="flex-1 min-h-0">

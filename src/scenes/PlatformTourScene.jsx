@@ -1,14 +1,16 @@
-import { useEffect, useMemo, useRef } from 'react'
-import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons'
+import { useCallback, useEffect, useMemo } from 'react'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from '../context/ThemeContext'
 import { useSceneMotion } from '../hooks/useSceneMotion'
-import { SceneMotionProvider, useSceneMotionControls } from '../context/SceneMotionContext'
+import { SceneMotionProvider } from '../context/SceneMotionContext'
 import { SceneMotionFollow, useSceneMotionFollow } from '../context/SceneMotionFollowContext'
 import AboutScene from './AboutScene'
 import UnifiedStrategyScene from './UnifiedStrategyScene'
 import DataExplosionSceneV2 from './DataExplosionSceneV2'
 import SearchChallengeScene, { BEATS as SEARCH_CHALLENGE_BEATS } from './SearchChallengeScene'
 import SearchContextScene, { BEATS as SEARCH_CONTEXT_BEATS } from './SearchContextScene'
+import VideoKnowledgeScene, { DEFAULT_BEATS as VIDEO_KNOWLEDGE_BEATS } from './VideoKnowledgeScene'
 import DataServicesScene, { BEATS as DATA_SERVICES_BEATS } from './DataServicesScene'
 
 const MONO = { fontFamily: 'Space Mono, ui-monospace, monospace' }
@@ -65,6 +67,12 @@ const PAGES = [
     beats: SEARCH_CONTEXT_BEATS,
   },
   {
+    id: 'video-knowledge',
+    title: 'Knowledge From Video',
+    component: VideoKnowledgeScene,
+    beats: VIDEO_KNOWLEDGE_BEATS,
+  },
+  {
     id: 'data-services',
     title: 'Data Services',
     component: DataServicesScene,
@@ -98,7 +106,6 @@ export function buildTourSteps(pages) {
 function PlatformTourScene({ metadata = {} }) {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
-  const { setControls } = useSceneMotionControls()
   const following = useSceneMotionFollow() != null
 
   const pages = useMemo(
@@ -107,50 +114,65 @@ function PlatformTourScene({ metadata = {} }) {
   )
   const steps = useMemo(() => buildTourSteps(pages), [pages])
 
-  const { beat, playKey, isPlaying, goTo, play, toggleAutoplay } = useSceneMotion(steps, {
-    loop: true,
-    // A dwell here is reading time for a whole page, not cover for an entrance
-    // animation, so reduced motion must not collapse it to a strobe.
+  const { beat, playKey, goTo } = useSceneMotion(steps, {
+    loop: false,
     shortenForReducedMotion: false,
   })
 
-  // The tour is a self-running loop, so it starts itself rather than waiting for
-  // the nav's play button. A presenter preview follows the audience tab's beat
-  // and must never drive its own.
-  const startedRef = useRef(false)
-  useEffect(() => {
-    if (following || startedRef.current) return
-    startedRef.current = true
-    play()
-  }, [following, play])
+  const goNext = useCallback(() => {
+    if (beat < steps.length - 1) goTo(beat + 1)
+  }, [beat, steps.length, goTo])
 
-  // Pause/resume for the nav bar. The deck only renders a toggle for scenes that
-  // supply their own icon, and a self-running slide needs a visible stop.
+  const goPrev = useCallback(() => {
+    if (beat > 0) goTo(beat - 1)
+  }, [beat, goTo])
+
   useEffect(() => {
     if (following) return undefined
-    setControls({
-      isPlaying,
-      onTogglePlay: toggleAutoplay,
-      toggleIcon: faPlay,
-      toggleIconActive: faPause,
-      toggleTitle: 'Resume the tour',
-      toggleTitleActive: 'Pause the tour',
-    })
-    return () => setControls(null)
-  }, [following, isPlaying, toggleAutoplay, setControls])
+    const onKey = (e) => {
+      if (e.target.closest?.('input, textarea, [contenteditable="true"]')) return
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault()
+        goNext()
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault()
+        goPrev()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [following, goNext, goPrev])
+
+  const onStageClick = (e) => {
+    if (e.target.closest('a, button, input, textarea, [role="button"]')) return
+    goNext()
+  }
 
   const current = steps[beat] || steps[0]
   const page = pages[current.pageIndex]
   const PageComponent = page.component
+  const atStart = beat <= 0
+  const atEnd = beat >= steps.length - 1
 
   const accent = isDark ? '#48EFCF' : '#0B64DD'
   const mutedText = isDark ? 'text-white/50' : 'text-elastic-dev-blue/50'
+  const chromeBtn = isDark
+    ? 'text-white/50 hover:text-white disabled:text-white/20'
+    : 'text-elastic-dev-blue/50 hover:text-elastic-dev-blue disabled:text-elastic-dev-blue/20'
   const eyebrow = metadata.eyebrow || 'Elastic · Platform Tour'
 
   return (
     <div className="h-full w-full flex flex-col overflow-hidden">
-      {/* Page rail: where we are in the loop, and a way to jump */}
       <div className="shrink-0 flex items-center justify-center gap-2 px-8 pt-2 flex-wrap">
+        <button
+          type="button"
+          aria-label="Previous"
+          disabled={atStart}
+          onClick={goPrev}
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors disabled:cursor-not-allowed ${chromeBtn}`}
+        >
+          <FontAwesomeIcon icon={faChevronLeft} className="text-sm" />
+        </button>
         <span
           className={`text-[11px] font-bold uppercase tracking-eyebrow mr-1 ${mutedText}`}
           style={MONO}
@@ -163,6 +185,7 @@ function PlatformTourScene({ metadata = {} }) {
           return (
             <button
               key={p.id}
+              type="button"
               onClick={() => goTo(steps.indexOf(pageSteps[0]))}
               className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold transition-all ${
                 isActive
@@ -189,12 +212,18 @@ function PlatformTourScene({ metadata = {} }) {
             </button>
           )
         })}
+        <button
+          type="button"
+          aria-label="Next"
+          disabled={atEnd}
+          onClick={goNext}
+          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors disabled:cursor-not-allowed ${chromeBtn}`}
+        >
+          <FontAwesomeIcon icon={faChevronRight} className="text-sm" />
+        </button>
       </div>
 
-      {/* The page itself: a live scene, stepped by the tour.
-          `key` remounts it on a page change so its entrance replays; its own
-          SceneMotion provider keeps its stepper out of the deck's nav bar. */}
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0" onClick={onStageClick}>
         <SceneMotionProvider>
           <SceneMotionFollow beat={current.stepIndex} playKey={playKey}>
             <div key={page.id} className="h-full w-full">

@@ -19,7 +19,7 @@ export const DECK_PRESETS = [
   {
     id: 'tour',
     label: 'Platform Tour',
-    description: 'The self-running platform tour only. Used as the data-services demo opener.',
+    description: 'The platform tour only. Click through; it does not loop. Used as the data-services demo opener.',
     sceneIds: ['platform-tour'],
   },
   {

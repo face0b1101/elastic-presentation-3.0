@@ -90,7 +90,7 @@ content edits are preserved when switching presets. The default preset is
 
 | Preset | ID | Intent |
 |---|---|---|
-| **Platform Tour** *(default)* | `tour` | The self-running platform tour only. Used as the data-services demo opener. |
+| **Platform Tour** *(default)* | `tour` | The platform tour only. Click through; it does not loop. Used as the data-services demo opener. |
 | **New Prospect** | `new-prospect` | Net-new pitch — market context first, no existing-footprint assumptions. 16 scenes ending in pricing, services, next steps, then the platform tour. |
 | **Technical Deep-Dive** | `technical` | Architecture and platform internals for architects and platform teams — planes, node types, tiering, schema, cross-cluster, ES\|QL, deployment models, through a full reference deployment. |
 | **Whiteboard** | `whiteboard-session` | A live working session — platform grounding and the reference architecture, then draw theirs on the live board. |

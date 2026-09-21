@@ -17,6 +17,12 @@ export const DECK_PRESETS = [
     sceneIds: [],
   },
   {
+    id: 'tour',
+    label: 'Platform Tour',
+    description: 'The self-running platform tour only. Used as the data-services demo opener.',
+    sceneIds: ['platform-tour'],
+  },
+  {
     id: 'new-prospect',
     label: 'New Prospect',
     description: 'Net-new pitch — market context first, no existing-footprint assumptions.',
@@ -163,7 +169,7 @@ export const DECK_PRESETS = [
   },
 ]
 
-export const DEFAULT_PRESET_ID = 'new-prospect'
+export const DEFAULT_PRESET_ID = 'tour'
 
 export const CUSTOM_PRESET_ID = 'custom'
 

@@ -41,6 +41,7 @@ function AppContent() {
   const location = useLocation()
 
   const scenes = enabledScenes
+  const hideDeckChrome = scenes.length <= 1
 
   const sceneIdFromUrl = location.pathname.slice(1)
   const currentScene = (() => {
@@ -541,12 +542,15 @@ function AppContent() {
       />
 
       {/* Scene Container */}
-      <div className="h-[calc(100vh-76px)] flex items-center justify-center" data-scene-root>
+      <div
+        className={`${hideDeckChrome ? 'h-screen' : 'h-[calc(100vh-76px)]'} flex items-center justify-center`}
+        data-scene-root
+      >
         <Scene {...sceneProps} />
       </div>
-      
+
       {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 w-full py-4 border-t backdrop-blur-md bg-elastic-light-grey/85 dark:bg-elastic-dev-blue/85 border-elastic-dev-blue/10 dark:border-white/10 shadow-[0_-4px_20px_rgba(11,22,40,0.06)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.3)]">
+      <nav className={`${hideDeckChrome ? 'hidden' : ''} fixed bottom-0 left-0 right-0 z-40 w-full py-4 border-t backdrop-blur-md bg-elastic-light-grey/85 dark:bg-elastic-dev-blue/85 border-elastic-dev-blue/10 dark:border-white/10 shadow-[0_-4px_20px_rgba(11,22,40,0.06)] dark:shadow-[0_-4px_20px_rgba(0,0,0,0.3)]`}>
         {/* Tiny credit line, centered and out of the way of the controls */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden lg:block text-[5px] tracking-wide whitespace-nowrap text-elastic-dev-blue/40 dark:text-white/40">
           Built and managed by Daniel Barr | <a href="https://elastic.co" target="_blank" rel="noreferrer" className="pointer-events-auto hover:underline">elastic.co</a> | 2026

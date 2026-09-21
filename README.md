@@ -8,7 +8,7 @@ polished animated scenes — all running locally in the browser with no backend.
 
 - Single-page React 18 + Vite app, hash-routed (`/#/<scene-id>`), no server or database.
 - A presentation is an ordered, enabled subset of **60 registered scenes** (`src/data/sceneRegistry.jsx`).
-- **Deck presets** (`src/data/deckPresets.js`) are out-of-the-box flows: New Prospect (default), Technical Deep-Dive, Whiteboard, Observability, Security, Search, All Scenes, No Scenes.
+- **Deck presets** (`src/data/deckPresets.js`) are out-of-the-box flows: Platform Tour (default), New Prospect, Technical Deep-Dive, Whiteboard, Observability, Security, Search, All Scenes, No Scenes.
 - Scenes can have internal animation steps ("**beats**" via the `useSceneMotion` hook, or lifted "**stages**" managed in `App.jsx`).
 - A **presenter view** (`/#/presenter`) opens in a second tab and drives the audience tab over `BroadcastChannel`, with speaker notes and live previews.
 - An **architecture whiteboard** scene (`/#/whiteboard`) provides a live drag-and-drop canvas for Elastic deployment diagrams.
@@ -86,11 +86,12 @@ Presets live in `src/data/deckPresets.js` and are applied from the **Scenes** ta
 of the Settings panel. Applying a preset enables exactly its scenes, in order;
 every other scene is moved after them and disabled. Per-scene durations and
 content edits are preserved when switching presets. The default preset is
-**New Prospect**.
+**Platform Tour**.
 
 | Preset | ID | Intent |
 |---|---|---|
-| **New Prospect** *(default)* | `new-prospect` | Net-new pitch — market context first, no existing-footprint assumptions. 16 scenes ending in pricing, services, and next steps. |
+| **Platform Tour** *(default)* | `tour` | The self-running platform tour only. Used as the data-services demo opener. |
+| **New Prospect** | `new-prospect` | Net-new pitch — market context first, no existing-footprint assumptions. 16 scenes ending in pricing, services, next steps, then the platform tour. |
 | **Technical Deep-Dive** | `technical` | Architecture and platform internals for architects and platform teams — planes, node types, tiering, schema, cross-cluster, ES\|QL, deployment models, through a full reference deployment. |
 | **Whiteboard** | `whiteboard-session` | A live working session — platform grounding and the reference architecture, then draw theirs on the live board. |
 | **Observability** | `observability` | The Observability story — from efficient datastore to the autonomous AI SRE (Nightshift). Uses the 14 `obs-*` / `nightshift-*` scenes. |
@@ -105,7 +106,7 @@ content edits are preserved when switching presets. The default preset is
 
 All 60 scenes, grouped as they appear in `src/data/sceneRegistry.jsx`. "Default"
 indicates whether the scene ships enabled before any preset/customization is
-applied (the New Prospect preset governs the actual default flow).
+applied (the Platform Tour preset governs the actual default flow).
 
 ### Opening & narrative core (enabled by default)
 

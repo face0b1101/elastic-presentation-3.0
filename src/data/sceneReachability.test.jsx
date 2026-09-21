@@ -37,9 +37,7 @@ function enabledIdsFor(saved) {
   return result.current.enabledSceneIds
 }
 
-const shouldBeVisible = SCENE_REGISTRY.filter(
-  (s) => !s.defaultDisabled && !KNOWN_UNREACHABLE.includes(s.id),
-).map((s) => s.id)
+const shouldBeVisible = presetConfig(DEFAULT_PRESET_ID, ALL_IDS).enabledIds
 
 beforeEach(() => localStorage.clear())
 

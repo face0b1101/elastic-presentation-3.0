@@ -40,8 +40,11 @@ function AppContent() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const scenes = enabledScenes
-  const hideDeckChrome = scenes.length <= 1
+  const embed = new URLSearchParams(location.search).get('embed') === '1'
+  const scenes = embed
+    ? SCENE_REGISTRY.filter((s) => s.id === 'platform-tour')
+    : enabledScenes
+  const hideDeckChrome = embed || scenes.length <= 1
 
   const sceneIdFromUrl = location.pathname.slice(1)
   const currentScene = (() => {
@@ -53,13 +56,13 @@ function AppContent() {
   useEffect(() => {
     const idx = scenes.findIndex(s => s.id === sceneIdFromUrl)
     if (idx === -1 && scenes.length > 0) {
-      navigate(`/${scenes[0].id}`, { replace: true })
+      navigate({ pathname: `/${scenes[0].id}`, search: location.search }, { replace: true })
     }
-  }, [sceneIdFromUrl, scenes, navigate])
+  }, [sceneIdFromUrl, scenes, navigate, location.search])
 
   const navigateToScene = (index) => {
     const clamped = Math.max(0, Math.min(index, scenes.length - 1))
-    navigate(`/${scenes[clamped].id}`)
+    navigate({ pathname: `/${scenes[clamped].id}`, search: location.search })
   }
 
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -1096,7 +1099,7 @@ function AppContent() {
       </nav>
       
       {/* Progress Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 h-1 bg-gray-200 dark:bg-gray-700">
+      <div className={`${hideDeckChrome ? 'hidden' : ''} fixed bottom-0 left-0 right-0 z-50 h-1 bg-gray-200 dark:bg-gray-700`}>
         <div 
           className="h-full bg-elastic-blue dark:bg-elastic-teal transition-all duration-500"
           style={{ width: `${((currentScene + 1) / scenes.length) * 100}%` }}

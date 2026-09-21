@@ -9,7 +9,7 @@ import UnifiedStrategyScene from './UnifiedStrategyScene'
 import DataExplosionSceneV2 from './DataExplosionSceneV2'
 import SearchChallengeScene, { BEATS as SEARCH_CHALLENGE_BEATS } from './SearchChallengeScene'
 import SearchContextScene, { BEATS as SEARCH_CONTEXT_BEATS } from './SearchContextScene'
-import VideoKnowledgeScene, { DEFAULT_BEATS as VIDEO_KNOWLEDGE_BEATS } from './VideoKnowledgeScene'
+import DataServicesScene, { BEATS as DATA_SERVICES_BEATS } from './DataServicesScene'
 
 const MONO = { fontFamily: 'Space Mono, ui-monospace, monospace' }
 
@@ -65,10 +65,10 @@ const PAGES = [
     beats: SEARCH_CONTEXT_BEATS,
   },
   {
-    id: 'video-knowledge',
-    title: 'Knowledge From Video',
-    component: VideoKnowledgeScene,
-    beats: VIDEO_KNOWLEDGE_BEATS,
+    id: 'data-services',
+    title: 'Data Services',
+    component: DataServicesScene,
+    beats: DATA_SERVICES_BEATS,
   },
 ]
 

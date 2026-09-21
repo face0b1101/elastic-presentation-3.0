@@ -58,6 +58,7 @@ import GpuVectorPipelineScene from '../scenes/GpuVectorPipelineScene'
 import SearchInferenceScene from '../scenes/SearchInferenceScene'
 import SearchContextScene from '../scenes/SearchContextScene'
 import VideoKnowledgeScene from '../scenes/VideoKnowledgeScene'
+import DataServicesScene from '../scenes/DataServicesScene'
 import PlatformTourScene from '../scenes/PlatformTourScene'
 
 /**
@@ -79,7 +80,7 @@ export const SCENE_REGISTRY = [
     component: PlatformTourScene,
     title: 'Platform Tour',
     duration: '2 min',
-    description: 'Self-running loop for a booth or a room filling up. Six pages (About, Platform Overview, Data Explosion, Unstructured Challenge, Context Layer, Knowledge From Video) rotate on their own, stepping through each page\u2019s own beats',
+    description: 'Self-running loop for a booth or a room filling up. Six pages (About, Platform Overview, Data Explosion, Unstructured Challenge, Context Layer, Data Services) rotate on their own, stepping through each page\u2019s own beats',
   },
   {
     id: 'agenda',
@@ -177,6 +178,14 @@ export const SCENE_REGISTRY = [
     title: 'Knowledge From Video',
     duration: '3 min',
     description: 'Executive one-pager for the video search demo — the gap today, then plain-language questions answered with the clip, the timestamp, and the evidence',
+  },
+  {
+    id: 'data-services',
+    component: DataServicesScene,
+    title: 'Data Services',
+    duration: '3 min',
+    description: 'This demo: three data services, capabilities built on top, classic search versus a coordinator',
+    defaultDisabled: true,
   },
   {
     id: 'search-gpu',

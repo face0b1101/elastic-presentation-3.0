@@ -26,8 +26,8 @@ describe('platform tour scene', () => {
     const { container, getByText } = renderTour()
     expect(container.textContent).toContain('5B+')
 
-    fireEvent.click(getByText('Knowledge From Video'))
-    expect(container.textContent).toContain('criminals stealing money from Australians online')
+    fireEvent.click(getByText('Data Services'))
+    expect(container.textContent).toContain('Intelligence specialist')
 
     // Pages land on their first beat, whatever the tour was showing before.
     fireEvent.click(getByText('Unstructured Challenge'))
@@ -69,6 +69,12 @@ describe('platform tour scene', () => {
       expect(step.hold).toBeGreaterThanOrEqual(5000)
       expect(step.hold).toBeLessThanOrEqual(15000)
     }
+  })
+
+  it('ends the loop on Data Services, not Knowledge From Video', () => {
+    const { queryByText, getByText } = renderTour()
+    expect(getByText('Data Services')).toBeTruthy()
+    expect(queryByText('Knowledge From Video')).toBeNull()
   })
 
   it('gives a page one step per beat of the scene it embeds', () => {

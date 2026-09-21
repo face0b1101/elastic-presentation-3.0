@@ -29,7 +29,7 @@ describe('platform tour scene', () => {
     fireEvent.click(getByText('Data Services'))
     expect(container.textContent).toContain('Intelligence specialist')
 
-    fireEvent.click(getByText('Knowledge From Video'))
+    fireEvent.click(getByText('Multimodal'))
     expect(container.textContent).toContain('Searchable in Name Only')
 
     fireEvent.click(getByText('Unstructured Challenge'))
@@ -75,9 +75,9 @@ describe('platform tour scene', () => {
     }
   })
 
-  it('includes Knowledge From Video and closes on Data Services', () => {
+  it('includes Multimodal and closes on Data Services', () => {
     const { getByText } = renderTour()
-    expect(getByText('Knowledge From Video')).toBeTruthy()
+    expect(getByText('Multimodal')).toBeTruthy()
     expect(getByText('Data Services')).toBeTruthy()
   })
 

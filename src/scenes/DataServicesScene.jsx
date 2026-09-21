@@ -324,8 +324,8 @@ function DataServicesScene({ metadata = {} }) {
     const merged = { ...(DEFAULT_CAPABILITIES[i] || {}), ...c }
     return { ...merged, icon: resolveIcon(merged.icon, DEFAULT_CAPABILITIES[i]?.icon || faMagnifyingGlass) }
   })
-  const demoHref = metadata.demoHref || '/ask'
-  const demoCue = metadata.demoCue || 'Over to the demo -> one question across the data services'
+  const demoHref = metadata.demoHref || '/'
+  const demoCue = metadata.demoCue || 'Over to the demo'
 
   useEffect(() => {
     const el = rootRef.current

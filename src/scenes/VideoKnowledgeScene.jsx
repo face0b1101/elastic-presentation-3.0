@@ -24,9 +24,9 @@ import { resolveIcon } from '../data/iconOptions'
 
 const MONO = { fontFamily: 'Space Mono, ui-monospace, monospace' }
 
-// Three pages for a ministerial audience: the gap today, the shift, then the
-// close that names Elastic and hands over to the live demo.
-// Keywords sit inside the visual so the speaker reads prompts, not paragraphs.
+// Three pages: the gap today, the shift, then one index across every format.
+// Video is the example. Keywords sit inside the visual so the speaker reads
+// prompts, not paragraphs.
 export const DEFAULT_BEATS = [
   {
     key: 'today',
@@ -46,7 +46,7 @@ export const DEFAULT_BEATS = [
   },
   {
     key: 'close',
-    step: 'Over to the demo',
+    step: 'One index',
     titlePlain: 'One Elastic index. ',
     titleAccent: 'Not four products.',
     subtitle: 'Words, meaning, vision, audio, record metadata and access control in one place, this is why the answer can carry its own evidence.',
@@ -84,19 +84,18 @@ const DEFAULT_PLATFORM = [
 ]
 
 const DEFAULT_SOURCES = [
-  { id: 'video', label: 'Video', icon: faVideo, examples: 'Chamber · Committees · Field cameras' },
-  { id: 'audio', label: 'Audio', icon: faMicrophoneLines, examples: 'Hearings · Calls · Interviews' },
-  { id: 'image', label: 'Image', icon: faImage, examples: 'Scans · Photos · Screens' },
-  { id: 'text', label: 'Text', icon: faFileLines, examples: 'Hansard · Briefs · Case files' },
+  { id: 'video', label: 'Video', icon: faVideo, examples: 'Body-worn · CCTV · Interview' },
+  { id: 'audio', label: 'Audio', icon: faMicrophoneLines, examples: '999 calls · Interviews · Radio' },
+  { id: 'image', label: 'Image', icon: faImage, examples: 'Exhibits · Scene photos · Screenshots' },
+  { id: 'text', label: 'Text', icon: faFileLines, examples: 'Statements · Intelligence · Legislation' },
 ]
 
-// Real clips from the ASD Cybercrime by the Numbers report in the government
-// index, so the slide previews exactly what the demo then shows. Positions are
-// the true fraction of that 59-second recording.
+// Illustrative timestamps for a multimodal hit on "handcuffs": speech, the
+// object on screen, then the clip. Not a real index.
 const DEFAULT_MOMENTS = [
-  { at: '0:08', pos: 14, title: 'The scale, spoken', matched: 'Spoken words' },
-  { at: '0:24', pos: 41, title: 'ReportCyber on screen', matched: 'On-screen text' },
-  { at: '0:48', pos: 81, title: 'Attributed to ASD’s ACSC', matched: 'Agency on screen' },
+  { at: '0:08', pos: 14, title: 'Spoken on the recording', matched: 'Spoken words' },
+  { at: '0:24', pos: 41, title: 'Handcuffs on screen', matched: 'On-screen object' },
+  { at: '0:48', pos: 81, title: 'The clip that cites it', matched: 'Timestamped clip' },
 ]
 
 const DEFAULT_COSTS = [
@@ -105,8 +104,8 @@ const DEFAULT_COSTS = [
   { title: 'Slow to brief', line: 'The answer arrives after it was needed.' },
 ]
 
-// Ministerial keywords (on-slide) and the deeper terms to pivot on if the room
-// turns technical. Both are per-beat so the prompt matches the page.
+// On-slide keywords and the deeper terms to pivot on if the room turns technical.
+// Both are per-beat so the prompt matches the page.
 const DEFAULT_KEYWORDS = {
   today: ['Kept, not searched', 'Watch it to find it', 'Four archives, four searches', 'Nothing for AI to stand on'],
   shift: ['Answers, not archives', 'Shows its source', 'One layer, people and AI', 'Your cloud, your models'],
@@ -164,7 +163,7 @@ function SourceRail({ sources, footer, answered, accent, isDark }) {
       }}
     >
       <p className={`text-[11px] font-semibold uppercase tracking-eyebrow ${mutedText}`}>
-        What government already holds
+        What you already hold
       </p>
 
       {sources.map((s) => (
@@ -380,7 +379,7 @@ function CostCards({ costs, danger, isDark }) {
   )
 }
 
-function ClosePage({ platform, outcome, demoCue, accent, isDark }) {
+function ClosePage({ platform, outcome, accent, isDark }) {
   const headText = isDark ? 'text-white' : 'text-elastic-dark-ink'
   const mutedText = isDark ? 'text-white/60' : 'text-elastic-dark-ink/65'
 
@@ -422,16 +421,6 @@ function ClosePage({ platform, outcome, demoCue, accent, isDark }) {
           {outcome}
         </p>
       </div>
-
-      <div className="reveal flex justify-center">
-        <span
-          className="inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-bold"
-          style={{ backgroundColor: accent, color: isDark ? '#04140f' : '#ffffff' }}
-        >
-          <FontAwesomeIcon icon={faPlay} className="text-[11px]" />
-          {demoCue}
-        </span>
-      </div>
     </div>
   )
 }
@@ -448,14 +437,14 @@ function VideoKnowledgeScene({ metadata = {} }) {
   const isClose = current.key === 'close'
   const answered = current.key !== 'today'
 
-  const eyebrow = metadata.eyebrow || 'Government · Knowledge From Video'
+  const eyebrow = metadata.eyebrow || 'Multimodal search'
   const question = metadata.question
-    || 'criminals stealing money from Australians online'
+    || 'handcuffs'
   const askCaption = answered
     ? metadata.askCaptionShift || 'answered with evidence'
     : metadata.askCaptionToday || 'someone watches the recordings'
   const sourceCaption = metadata.sourceCaption
-    || 'ASD Cybercrime by the Numbers 2024–25 · 59 seconds · 15 clips indexed'
+    || 'Same question across speech, on-screen objects and the clip'
   const railFooter = answered
     ? metadata.railFooterShift || 'One searchable knowledge layer.'
     : metadata.railFooterToday || 'Four archives. Four searches.'
@@ -469,8 +458,7 @@ function VideoKnowledgeScene({ metadata = {} }) {
     return { ...merged, icon: resolveIcon(merged.icon, DEFAULT_PLATFORM[i]?.icon || faLayerGroup) }
   })
   const outcome = metadata.outcome
-    || 'Answers while the question is still live, evidence that stands up, and one knowledge layer every agency that every assistant can reuse.'
-  const demoCue = metadata.demoCue || 'Over to the demo -> one question, real government video'
+    || 'Answers while the question is still live, evidence that stands up, and one knowledge layer every assistant can reuse.'
   const costs = (metadata.costs || DEFAULT_COSTS).map((c, i) => ({ ...(DEFAULT_COSTS[i] || {}), ...c }))
   // Overrides may be per-beat (keyed by beat key) or one flat list for both.
   const keywords = perBeatList(metadata.keywords, DEFAULT_KEYWORDS, current.key)
@@ -522,7 +510,6 @@ function VideoKnowledgeScene({ metadata = {} }) {
             <ClosePage
               platform={platform}
               outcome={outcome}
-              demoCue={demoCue}
               accent={accent}
               isDark={isDark}
             />

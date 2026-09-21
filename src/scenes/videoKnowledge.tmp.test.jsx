@@ -7,23 +7,30 @@ import { ThemeProvider } from '../context/ThemeContext'
 afterEach(cleanup)
 
 describe('video-knowledge scene', () => {
-  it('previews the real demo search on all three pages', () => {
-    const { container, getByText } = render(
+  it('previews a UK LE multimodal search on all three pages', () => {
+    const { container, getByText, queryByText } = render(
       <ThemeProvider>
         <VideoKnowledgeScene />
       </ThemeProvider>,
     )
-    expect(container.textContent).toContain('criminals stealing money from Australians online')
-    expect(container.textContent).toContain('somewhere in here')
+    expect(container.textContent).toContain('handcuffs')
+    expect(container.textContent).toContain('Multimodal search')
+    expect(container.textContent).toContain('What you already hold')
+    expect(container.textContent).toContain('Statements · Intelligence · Legislation')
+    expect(container.textContent).not.toContain('criminals stealing money from Australians online')
+    expect(container.textContent).not.toContain('What government already holds')
 
     fireEvent.click(getByText('The shift'))
-    for (const needle of ['0:08', '0:24', '0:48', 'ReportCyber on screen', 'Agency on screen',
-      'ASD Cybercrime by the Numbers 2024–25 · 59 seconds · 15 clips indexed']) {
+    for (const needle of ['0:08', '0:24', '0:48', 'Handcuffs on screen', 'On-screen object',
+      'Same question across speech, on-screen objects and the clip']) {
       expect(container.textContent).toContain(needle)
     }
+    expect(container.textContent).not.toContain('ReportCyber')
+    expect(container.textContent).not.toContain('ASD')
 
-    fireEvent.click(getByText('Over to the demo'))
+    fireEvent.click(getByText('One index'))
     expect(container.textContent).toContain('Every format, one index')
+    expect(queryByText('Over to the demo -> one question, real government video')).toBeNull()
     expect(container.querySelector('svg[aria-label="Elasticsearch"]')).not.toBeNull()
   })
 })

@@ -68,7 +68,7 @@ const PAGES = [
   },
   {
     id: 'video-knowledge',
-    title: 'Knowledge From Video',
+    title: 'Multimodal',
     component: VideoKnowledgeScene,
     beats: VIDEO_KNOWLEDGE_BEATS,
   },

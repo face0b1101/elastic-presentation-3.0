@@ -453,6 +453,7 @@ Dark mode (default) and light mode, toggled via the moon/sun icon in the nav bar
 - Light mode uses white surfaces with Elastic blue and ink tones.
 - All scenes, the whiteboard, and the presenter view respond to the active theme.
 - Persisted to `localStorage` as `presentation-theme`.
+- When the deck is embedded (`?embed=1`, as on the data-services `/tour` page), it follows the web app key `theme` and a `dss-theme` message from the parent window. It does not write `presentation-theme` in that mode.
 
 ---
 
@@ -464,7 +465,8 @@ Everything is client-side in `localStorage`:
 |---|---|
 | `presentation-scene-config` | Active preset, enabled scenes, order, durations, per-scene metadata (content edits, speaker notes, per-beat notes) |
 | `presentation-team-config` | Team title, subtitle, and all member records |
-| `presentation-theme` | `'dark'` or `'light'` |
+| `presentation-theme` | `'dark'` or `'light'` for a direct deck visit. Not written while `embed=1` |
+| `theme` | Web app theme. The embedded deck (`?embed=1`) reads this key and follows later changes from the parent window |
 | `ew-*` | Whiteboard board index and named boards, custom architecture presets, AI config — see the [whiteboard README](src/components/whiteboard/README.md#persistence) |
 
 A versioned migration (`ORDER_VERSION` in `SceneSettings.jsx`) re-applies the
